@@ -35,6 +35,9 @@ const showRegisterLoginForm = () => {
   const loginContainer = document.getElementById("login-container");
   loginContainer.style.display = "none";
 
+  const createPostContainer = document.getElementById("create-post-container");
+  createPostContainer.style.display = "none";
+
   const goBackBtn = document.querySelector(".back-btn-register-login");
   goBackBtn.style.display = "none";
 };
@@ -82,6 +85,11 @@ const showCreatePostForm = () => {
 
   const loginForm = document.getElementById("login-container");
   loginForm.style.display = "none";
+
+  const registerLoginForm = document.getElementById(
+    "register-login-redirection-container"
+  );
+  registerLoginForm.style.display = "none";
 };
 
 // Go Back Button
