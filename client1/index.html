@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CLIENT 1</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body>
+    <h1>Client 1</h1>
+    <div id="register-login-redirection-container">
+      <button id="register-redirection">Register</button>
+      <button id="login-redirection">Login</button>
+    </div>
+    <form id="register-container" style="display: none">
+      <input
+        type="text"
+        id="register-username"
+        placeholder="Username"
+        required
+      />
+      <input type="email" id="register-email" placeholder="Email" required />
+      <input
+        type="password"
+        id="register-password"
+        placeholder="Password"
+        required
+      />
+      <button id="register-btn">Register</button>
+    </form>
+    <form id="login-container" style="display: none">
+      <input type="email" id="login-email" placeholder="email" required />
+      <input
+        type="password"
+        id="login-password"
+        placeholder="Password"
+        required
+      />
+      <button id="login-btn">Login</button>
+    </form>
+    <form id="create-post-container" style="display: none">
+      <input type="url" id="post-url" placeholder="URL of img" required />
+      <input type="text" id="post-title" placeholder="Title" required />
+      <input
+        type="text"
+        id="post-description"
+        placeholder="Description"
+        required
+      />
+      <button id="create-post-btn">Create Post</button>
+    </form>
+    <button id="get-btn">GET</button>
+    <script src="index.js"></script>
+  </body>
+</html>
