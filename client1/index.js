@@ -104,6 +104,12 @@ const registerUser = async (event) => {
   const userName = document.getElementById("register-username").value;
   const userEmail = document.getElementById("register-email").value;
   const userPassword = document.getElementById("register-password").value;
+
+  if (!userName || !userEmail || !userPassword) {
+    alert("Please fill out all fields");
+    return;
+  }
+
   const userId = Math.floor(Math.random() * 1000000);
 
   const userInfo = {
@@ -132,25 +138,33 @@ document.getElementById("register-btn").addEventListener("click", registerUser);
 const loginUser = async (event) => {
   event.preventDefault();
 
-  const userEmail = document.getElementById("login-email").value;
-  const userPassword = document.getElementById("login-password").value;
+  const userEmail = document.getElementById("login-email").value.trim();
+  const userPassword = document.getElementById("login-password").value.trim();
 
-  // Get all users
-  const response = await fetch("http://localhost:5050/users");
-  const data = await response.json();
-
-  // Find user and compare input to database
-  const user = data.find(
-    (user) => user.userEmail === userEmail && user.userPassword === userPassword
-  );
-
-  if (user) {
-    console.log("login response", user);
-  } else {
-    console.log("login response", "User not found");
+  if (!userEmail || !userPassword) {
+    alert("Please, fill out all fields");
+    return;
   }
+  // Get users from database
+  try {
+    const response = await fetch("http://localhost:5050/users");
+    const users = await response.json();
 
-  showCreatePostForm();
+    const user = users.find(
+      (u) => u.userEmail === userEmail && u.userPassword === userPassword
+    );
+
+    if (!user) {
+      alert("Email or password is incorrect");
+      console.log("login response", "User not found");
+    } else {
+      console.log("login response", user);
+      showCreatePostForm();
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    alert("An error occurred. Please try again.");
+  }
 };
 document.getElementById("login-btn").addEventListener("click", loginUser);
 
@@ -161,6 +175,12 @@ const createPost = async (event) => {
   const postImg = document.getElementById("post-url").value;
   const postTitle = document.getElementById("post-title").value;
   const postContent = document.getElementById("post-description").value;
+
+  if (!postImg || !postTitle || !postContent) {
+    alert("Please fill out all fields");
+    return;
+  }
+
   // const userId = userInfo.userId;
 
   const postInfo = {
