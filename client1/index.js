@@ -1,21 +1,3 @@
-document
-  .getElementById("get-btn")
-  .addEventListener("click", getUsers, getPosts);
-
-function getUsers() {
-  fetch("http://localhost:5050/users")
-    .then((response) => response.json())
-    .then((data) => console.log("get response", data))
-    .catch((error) => console.error("Error:", error));
-}
-
-function getPosts() {
-  fetch("http://localhost:5050/posts")
-    .then((response) => response.json())
-    .then((data) => console.log("get response", data))
-    .catch((error) => console.error("Error:", error));
-}
-
 //Nav to register/login form
 const showRegisterLoginForm = () => {
   const registerLoginForm = document.getElementById(
@@ -96,15 +78,6 @@ const showCreatePostForm = () => {
 document
   .querySelector(".back-btn-register-login")
   .addEventListener("click", showRegisterLoginForm);
-
-document.getElementById("get-btn").addEventListener("click", getUsers);
-
-function getUsers() {
-  fetch("http://localhost:5050/users")
-    .then((response) => response.json())
-    .then((data) => console.log("get response", data))
-    .catch((error) => console.error("Error:", error));
-}
 
 // Register User
 const registerUser = async (event) => {
