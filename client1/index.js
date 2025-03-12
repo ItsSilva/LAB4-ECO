@@ -97,6 +97,15 @@ document
   .querySelector(".back-btn-register-login")
   .addEventListener("click", showRegisterLoginForm);
 
+document.getElementById("get-btn").addEventListener("click", getUsers);
+
+function getUsers() {
+  fetch("http://localhost:5050/users")
+    .then((response) => response.json())
+    .then((data) => console.log("get response", data))
+    .catch((error) => console.error("Error:", error));
+}
+
 // Register User
 const registerUser = async (event) => {
   event.preventDefault();
@@ -105,32 +114,21 @@ const registerUser = async (event) => {
   const userEmail = document.getElementById("register-email").value;
   const userPassword = document.getElementById("register-password").value;
 
-  if (!userName || !userEmail || !userPassword) {
-    alert("Please fill out all fields");
-    return;
-  }
-
-  const userId = Math.floor(Math.random() * 1000000);
-
-  const userInfo = {
-    userName: userName,
-    userEmail: userEmail,
-    userPassword: userPassword,
-    userId: userId,
-  };
-
-  // Post user to database
   const response = await fetch("http://localhost:5050/users", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(userInfo),
-  }); // Send user info to server
-  const data = await response.json();
-  console.log("register response", data);
+    body: JSON.stringify({ userName, userEmail, userPassword }),
+  });
 
-  showRegisterLoginForm();
+  const data = await response.json();
+  if (response.ok) {
+    console.log("register response", data);
+    showRegisterLoginForm();
+  } else {
+    alert(data.error);
+  }
 };
 document.getElementById("register-btn").addEventListener("click", registerUser);
 
@@ -141,29 +139,20 @@ const loginUser = async (event) => {
   const userEmail = document.getElementById("login-email").value.trim();
   const userPassword = document.getElementById("login-password").value.trim();
 
-  if (!userEmail || !userPassword) {
-    alert("Please, fill out all fields");
-    return;
-  }
-  // Get users from database
-  try {
-    const response = await fetch("http://localhost:5050/users");
-    const users = await response.json();
+  const response = await fetch("http://localhost:5050/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ userEmail, userPassword }),
+  });
 
-    const user = users.find(
-      (u) => u.userEmail === userEmail && u.userPassword === userPassword
-    );
-
-    if (!user) {
-      alert("Email or password is incorrect");
-      console.log("login response", "User not found");
-    } else {
-      console.log("login response", user);
-      showCreatePostForm();
-    }
-  } catch (error) {
-    console.error("Error:", error);
-    alert("An error occurred. Please try again.");
+  const data = await response.json();
+  if (response.ok) {
+    console.log("login response", data);
+    showCreatePostForm();
+  } else {
+    alert(data.error);
   }
 };
 document.getElementById("login-btn").addEventListener("click", loginUser);
@@ -176,29 +165,20 @@ const createPost = async (event) => {
   const postTitle = document.getElementById("post-title").value;
   const postContent = document.getElementById("post-description").value;
 
-  if (!postImg || !postTitle || !postContent) {
-    alert("Please fill out all fields");
-    return;
-  }
-
-  // const userId = userInfo.userId;
-
-  const postInfo = {
-    postImg: postImg,
-    postTitle: postTitle,
-    postContent: postContent,
-    // userId: userId,
-  };
-
   const response = await fetch("http://localhost:5050/posts", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(postInfo),
+    body: JSON.stringify({ postImg, postTitle, postContent }),
   });
+
   const data = await response.json();
-  console.log("post response", data);
+  if (response.ok) {
+    console.log("post response", data);
+  } else {
+    alert(data.error);
+  }
 };
 document
   .getElementById("create-post-btn")
